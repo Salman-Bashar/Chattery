@@ -1,3 +1,8 @@
+//npm install nodemon --save-dev
+//npm install socket.io --save
+//npm install bad-words
+
+
 const path = require('path')
 const http = require('http')
 const express = require('express')
@@ -21,11 +26,14 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('message', 'A new user has joined!') //This emits to everyone except the the particular socket
 
   socket.on('sendMessage', (message, callback) => {
+
+    //Optional Feature: Profanity Filter
     const filter = new Filter()
 
     if (filter.isProfane(message)) {
       return callback('Profanity is not allowed!')
     }
+    //Optional Feature: Profanity Filter
 
     io.emit('message', message) //This emits to everyone
     callback()
